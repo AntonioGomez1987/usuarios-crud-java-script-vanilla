@@ -1,13 +1,23 @@
+import { loadUsersByPage } from "../use-cases/load-users-by-page";
+
 const state = {
     currentPage: 0,
     users: [],
 }
 
 const loadNextPage = async() => {
-    throw new Error("No implementado aun"); 
+    const users = await loadUsersByPage( state.currentPage + 1 );
+    if( users.length === 0) return;
+
+    state.currentPage += 1;
+    state.users = users;
 }
 const loadPreviousPage = async() => {
-    throw new Error("No implementado aun") 
+    if(state.currentPage === 1) return;
+    const users = await loadUsersByPage( state.currentPage - 1 );
+
+    state.users = users;
+    state.currentPage -= 1;
 }
 const onUserChanged = async() => {
     throw new Error("No implementado aun") 
@@ -22,6 +32,14 @@ export default {
     onUserChanged,
     reloadPage,
 
-    getUser: () => [...state.users],
+
+    /**
+     * @returns {User[]}
+     */
+    getUsers: () => [...state.users],
+    
+    /**
+     * @returns {Number}
+     */
     getCurrentPage: () => state.currentPage,
 }
