@@ -32,6 +32,6 @@ input {
     padding: 5px;
 }
 
-span {
+span, label {
     color: black;
 }
