@@ -44,7 +44,12 @@ const onUserChanged = async(updateduser) => {
 }
 
 const reloadPage = async() => {
-    throw new Error("No implementado aun") 
+    const users = await loadUsersByPage( state.currentPage );
+    if( users.length === 0){
+        await loadPreviousPage();
+        return;
+    } 
+    state.users = users; 
 }
 
 export default {
