@@ -1,3 +1,4 @@
+import { localhostUserToModel } from '../mappers/locahost-user.mapper';
 import { userModelToLocalhost } from '../mappers/user-to-localhost.mapper'
 import { User } from '../models/user'
 
@@ -13,14 +14,17 @@ export const saveUser = async( userLike ) => {
         throw 'FIRST & LAST NAME are required';
 
     const userToSave = userModelToLocalhost( user );
+    let userUpdated;
 
     if( user.id ) {
-        throw 'No esta implementada la actualizacion'
-        return;
+        userUpdated = await updateUser(userToSave);        
     }
-
-    const updateduser = await createUser( userToSave );
-    return updateduser;
+    else {
+        userUpdated = await createUser( userToSave );
+    }  
+    
+    return localhostUserToModel( userUpdated)
+    
 }
 
 /**
@@ -42,4 +46,25 @@ const createUser = async( user ) => {
     console.log({ newUser });
 
     return newUser;
+}
+
+/**
+ * 
+ * @param {Like<User>} user 
+ */
+const updateUser = async( user ) => {
+
+    const url = `${ import.meta.env.VITE_BASE_URL }/users/${ user.id }`;
+    const res = await fetch(url, {
+        method: 'PATCH',
+        body: JSON.stringify(user),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    const updateduser = await res.json();
+    console.log({ updateduser });
+
+    return updateUser;
 }

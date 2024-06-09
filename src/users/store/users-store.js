@@ -1,3 +1,4 @@
+import { User } from "../models/user";
 import { loadUsersByPage } from "../use-cases/load-users-by-page";
 
 const state = {
@@ -19,9 +20,29 @@ const loadPreviousPage = async() => {
     state.users = users;
     state.currentPage -= 1;
 }
-const onUserChanged = async() => {
-    throw new Error("No implementado aun") 
+
+/**
+ * @param {User} updateduser
+ */
+const onUserChanged = async(updateduser) => {
+
+    let wasFound = false;
+
+    state.users = state.users.map( user => {
+        if( user.id === updateduser.id ){
+            wasFound = true;
+            return updateduser;
+        }
+        return user;
+    });
+
+    if( state.users.length < 10 && !wasFound ){
+        state.users.push( updateduser );
+    }
+
+
 }
+
 const reloadPage = async() => {
     throw new Error("No implementado aun") 
 }
