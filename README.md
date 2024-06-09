@@ -24,8 +24,12 @@ Este proyecto es una aplicación CRUD (Crear, Leer, Actualizar, Eliminar) de usu
    git clone https://github.com/AntonioGomez1987/usuarios-crud-java-script-vanilla.git
    cd crud-usuarios
 
-2. **npm run dev**
-   **npm run server**
+2. **Correr Frontend**
+    ```bash
+   npm run dev
+   **Correr Backtend**
+   ```bash
+   npm run server
 
 ## Uso
 
